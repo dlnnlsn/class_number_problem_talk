@@ -1,0 +1,806 @@
+\documentclass{beamer}
+
+\usetheme{CambridgeUS}
+
+\title{The Class Number Problem}
+\author{Dylan Nelson}
+\institute{Stellenbosch University}
+\date{18 October 2019}
+
+\newcommand{\legendre}[2]{\ensuremath{\left(\frac{#1}{#2}\right)}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+
+	\frametitle{Table of Contents}
+	\tableofcontents
+
+\end{frame}
+
+\section{Prime Producing Polynomials}
+
+\begin{frame}
+	
+	\frametitle{Prime Producing Polynomials}
+
+	Euler noticed that the polynomial $n^2 + n + 41$ is prime for all values of $n$ such that $0 \leq n \leq 39$. \pause
+
+	For $n = 40$, it takes the value $40^2 + 40 + 41 = 41^2$. \pause
+
+	In general, for the polynomial $n^2 + n + A$ takes on the value $A^2$ for $n = A - 1$, and so the largest range of values for which it can be prime is $0 \leq n \leq A - 2$. \pause
+
+	Determining all values of $A$ for which this maximal range of prime numbers is achieved turns out to be equivalent to something called the Class Number $1$ problem for imaginary quadratic fields. \pause
+
+	This problem was finally solved by Alan Baker in the 1970's!
+
+\end{frame}
+
+\section{Binary Quadratic Forms}
+
+\begin{frame}
+
+	\frametitle{Binary Quadratic Forms}
+
+	\begin{definition}[Binary Quadratic Form]
+		A binary quadratic form is an expression of the form
+		\[
+			ax^2 + bxy + cy^2
+		\]
+		for some integers $a$, $b$, and $c$.
+	\end{definition}
+	\pause
+
+	\begin{definition}[Discriminant]
+		The discriminant of the binary quadratic form $ax^2 + bxy + cy^2$ is $D = b^2 - 4ac$.
+	\end{definition}
+
+\end{frame}
+
+\begin{frame}
+	
+	\begin{definition}[Positive Definite]
+		A binary quadratic form $ax^2 + bxy + cy^2$ is called \emph{positive-definite} if $D = b^2 - 4ac < 0$ and $a > 0$.
+	\end{definition}
+	\pause
+
+	\begin{block}{Remark}
+		A binary quadratic form $ax^2 + bxy + cy^2$ is positive-definite precisely when $ax^2 + bxy + cy^2$ is positive for all real numbers $x$ and $y$ with $(x, y) \neq (0, 0)$.
+	\end{block}
+	\pause
+
+	\begin{block}{Remark}
+		For our purposes, we will only consider positive-definite binary quadratic forms as these are the forms that are relevant when discussing the class number problem for imaginary quadratic fields, and I was too lazy to figure out what needs to change in order to deal with binary quadratic forms more generally.
+	\end{block}
+
+\end{frame}
+
+\begin{frame}
+	
+	\begin{definition}[Equivalence]
+		Two binary quadratic forms are said to be equivalent if there is an invertible linear change of variables which transforms one into the other. In other words, the binary quadratic form $p(x, y) = ax^2 + bxy + cy^2$ is equivalent to precisely the forms $p(sx + ty, ux + vy)$ where
+		\[
+			\begin{pmatrix} s & t \\ u & v \end{pmatrix} \in \operatorname{SL}_2(\mathbb{Z}).
+		\]
+		We require the determinant of the matrix to be $1$ so that $p(sx + ty, ux + vy)$ remains positive-definite.
+	\end{definition}
+
+	\begin{block}{Remark}
+		If two binary quadratic forms are equivalent, then they have the same discriminant.
+	\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Reduction of Binary Quadratic Forms}
+
+	\begin{definition}
+		A (positive-definite) binary quadratic form $ax^2 + bxy + cy^2$ is said to be \emph{reduced} if $-a < b \leq a \leq c$, or $0 < b \leq a = c$.
+	\end{definition}
+	\pause
+
+	\begin{theorem}
+		Every equivalence class of positive-definite binary quadratic forms contains a reduced element.
+	\end{theorem}
+
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Proof}
+
+	We apply the following procedure to $ax^2 + bxy + cy^2$:
+
+	We note that the matrix
+	\[
+		\begin{pmatrix} 1 & -n \\ 0 & 1 \end{pmatrix}
+	\]
+	is in $\operatorname{SL}_2(\mathbb{Z})$, and transforms $ax^2 + bxy + cy^2$ into $a^\prime x^2 + b^\prime xy + c^\prime y^2$ where
+	\begin{align*}
+		a^\prime & = a & b^\prime & = -2an + b & c^\prime & = an^2 - bn + c.
+	\end{align*}
+	\pause
+
+	There is a unique value of $n$ such that $(2n - 1)a < b \leq (2n + 1)a$. We choose this $n$ in the transformation above so that we obtain a binary quadratic form $ax^2 + bxy + cy^2$ where $-a < b \leq a$. \pause
+
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Proof}
+
+	If $a \leq c$, then we are done. Otherwise we apply the transformation given by
+	\[
+		\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix} \in \operatorname{SL}_2(\mathbb{Z}).
+	\]
+	\pause
+
+	This has the effect of transforming $ax^2 + bxy + cy^2$ into $cx^2 - bxy + ay^2$. \pause
+
+	We apply these two transformations repeatedly until we obtain a reduced binary quadratic form. Since applying these two operations in succession strictly reduces the coefficient of $x^2$, this process must terminate.
+
+\end{frame}
+
+\begin{frame}
+
+	\begin{block}{Fact}
+		The reduced binary quadratic form in each equivalence class is unique.
+	\end{block}
+
+	\begin{definition}[Class Number]
+		The number of equivalence classes of positive-definite binary quadratic forms with discriminant $D$ is called the \emph{Class Number} of the discriminant $D$.
+	\end{definition}
+
+	\begin{block}{Remark}
+		The \emph{Class Number Problem} is the problem of identifying all discriminants $D$ with a given class number.
+	\end{block}
+
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{The Connection with M\"obius Transformations}
+
+	To the binary quadratic form $p(x, y) = ax^2 + bxy + cy^2$ with discriminant $D$, we assign the complex number
+	\[
+		\tau(p) = \frac{b + \sqrt{D}}{2a}
+	\]
+	in the upper half-plane. \pause
+
+	We note that $\operatorname{SL}_2(\mathbb{Z})$ acts on the upper half plane via \emph{M\"obius transformations}:
+	\[
+		\begin{pmatrix} s & t \\ u & v \end{pmatrix} \tau = \frac{s \tau + t}{u \tau + v}.
+	\]
+	\pause
+
+	This action is compatible with the action on binary quadratic forms in the sense that $\tau (\sigma p) = \sigma \tau(p)$ for all $\sigma \in \operatorname{SL}_2(\mathbb{Z})$ and all binary quadratic forms $p$. \pause
+
+\end{frame}
+
+\begin{frame}
+	
+	It is well known that under this action, the orbit of every complex number in the upper half-plane contains an element in the so-called \emph{fundamental region} $\mathcal{F}$ given by all complex numbers $z$ in the upper half-plane such that
+	\begin{align*}
+		-\frac{1}{2} < \mathfrak{Re}(z) \leq \frac{1}{2} && \text{and} && |z| \geq 1,
+	\end{align*}
+	and where we require that if $|z| = 1$ then $\mathfrak{Re}(z) \geq 0$.
+	\pause
+	
+	For a number $\tau(p)$ corresponding to a positive-definite binary quadratic form $p(x, y) = ax^2 + bxy + cy^2$, we have that
+	\begin{align*}
+		\mathfrak{Re}(\tau) & = \frac{b}{2a} & {|\tau|}^2 & = \left(\frac{b + \sqrt{D}}{2a}\right)\left(\frac{b - \sqrt{D}}{2a}\right) \\
+		& & & = \frac{b^2 - (b^2 - 4ac)}{4a^2} = \frac{c}{a}.
+	\end{align*}
+	
+\end{frame}
+
+\begin{frame}
+	We thus have that
+	\[
+		-\frac{1}{2} < \tau \leq \frac{1}{2} \iff -\frac{1}{2} < \frac{b}{2a} \leq \frac{1}{2} \iff -a < b \leq a
+	\]
+	and
+	\[
+		|\tau| \geq 1 \iff {|\tau|}^2 \geq 1 \iff \frac{c}{a} \geq 1 \iff a \leq c.
+	\]
+	\pause
+
+	We see that $\tau(p)$ lies in the fundamental domain $\mathcal{F}$ if and only if $p$ is reduced! \pause
+	
+	The result that the orbit of every complex number in the upper half-plane contains an element in the fundamental domain thus implies our earlier result that every equivalence class of binary quadratic forms contains a reduced form. \pause
+	
+	The results are of course not equivalent since we only have a correspondence between binary quadratic forms and quadratic integers, not between binary quadratic forms and complex numbers in the upper half-plane in general.
+\end{frame}
+
+\section{Fractional Ideals in Dedekind Domains}
+
+\begin{frame}
+
+	\frametitle{Fractional Ideals}
+
+	\begin{definition}[Fractional Ideal]
+		Let $R$ be an integral domain, and let $K$ be its field of fractions. A fractional ideal of $R$ is an $R$-submodule $I$ of $K$ such that there exists a non-zero $r \in R$ such that $rI \subseteq I$.
+	\end{definition}
+	\pause
+
+	\begin{example}
+		$\frac{1}{2019} \mathbb{Z}$ is a fractional ideal of $\mathbb{Z}$
+	\end{example}
+	\pause
+
+	\begin{definition}[Principal Fractional Ideals]
+		Fractional ideals of the form $sR$ for some $s \in K$ are called \emph{Principal Fractional Ideals}.
+	\end{definition}
+
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{The Group of Fractional Ideals}
+
+	\begin{definition}[Ideal Product]
+		Given two fractional ideals $I$ and $J$, the product of these ideals is defined as
+		\[
+			IJ = \left\{ \sum_{i = 1}^{n} x_i y_i \,\middle|\, x_i \in I \text{ and } y_i \in J \right\}.
+		\]
+	\end{definition}
+	\pause
+
+	\begin{definition}[Invertible Ideals]
+		A fractional ideal $I$ of $R$ is said to be invertible if there exists a fractional ideal $J$ of $R$ such that $IJ = R$.
+	\end{definition}
+	\pause
+
+	\begin{definition}[Group of Fractional Ideals]
+		The set of invertible fractional ideals of an integral domain $R$ form an abelian group under multiplication. 
+	\end{definition}	
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{The Class Group}
+
+	\begin{block}{Fact}
+		An integral domain $R$ is a Dedekind domain if and only if every non-zero fractional ideal of $R$ is invertible.
+	\end{block}
+	\pause
+
+	\begin{definition}[Class Group]
+		The quotient of the group of fractional ideals of $R$ by the group of principle ideals of $R$ is called the \emph{Class Group} of $R$.
+	\end{definition}
+	\pause
+
+	\begin{definition}[Class Number]
+		The \emph{Class Number} of a ring $R$ is the size of its class group. In particular, we are interested in the case where $R$ is the ring of integers of some number field $K$, which is always Dedekind.
+	\end{definition}
+	
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{The Connection with Quadratic Forms}
+
+	\begin{block}{Fact}
+		If $\mathcal{O}_K$ is the ring of integers of some number field $K$, then every fractional ideal of $\mathcal{O}_K$ can be generated by $2$ elements.
+	\end{block}
+	\pause
+
+	\begin{block}{Fact}
+		There is a one-to-one correspondence between the equivalence classes of positive-definite binary quadratic forms with discriminant $d$, and the class group of the ring of integers of $\mathbb{Q}(\sqrt{d})$. The binary quadratic form $ax^2 + bxy + cy^2$ corresponds to the ideal generated by $a$ and $\frac{b + \sqrt{d}}{2}$.
+	\end{block}
+	\pause
+
+	\begin{block}{Fact}
+		The number of equivalence classes of positive-definite binary quadratic forms with discriminant $d$ is therefore equal to the size of the class group of $\mathbb{Q}(\sqrt{d})$.
+	\end{block}
+
+\end{frame}
+
+\section{The Connection Between Theses Ideas}
+
+\begin{frame}
+
+	\frametitle{Rabinowitz' Theorem}
+
+	\begin{theorem}
+	Let $A$ be a positive integer, and let $D = 1 - 4A$. Then the following are equivalent:
+	\begin{enumerate}
+		\item The imaginary quadratic field $\mathbb{Q}(\sqrt{D})$ has class number $1$.
+		\item The polynomial $p(n) = n^2 + n + A$ is prime for all natural numbers $n$ such that $0 \leq n \leq A - 2$.
+		\item The polynomial $p(n) = n^2 + n + A$ is prime for all natural numbers $n$ such that
+			\[
+				0 \leq n \leq \frac{1}{2} \sqrt{\frac{-D}{3}} - \frac{1}{2}.
+			\]
+		\item The only reduced binary quadratic form with discriminant $D$ is $x^2 + xy + Ay^2$.
+	\end{enumerate}
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Proof}
+
+	We first show that if $\mathbb{Q}(\sqrt{D})$ has class number $1$, then $n^2 + n + A$ is prime for all natural numbers $n$ such that $0 \leq n \leq A - 2$. \pause
+
+	Let
+	\[
+		\eta = \frac{1 + \sqrt{D}}{2}.
+	\]
+	We note that $\mathbb{Z}[\eta]$, which is the ring of integers of $\mathbb{Q}(\sqrt{D})$, is a unique factorisation domain. \pause
+
+	Consider some natural number $n$ such that $0 \leq n \leq A - 2$, and let $p$ be a prime number such that $p \mid n^2 + n + A$. \pause
+
+	We thus have that $p$ divides $(n + \eta)(n + \bar{\eta})$. However, neither factor is divisible by $p$, and so $p$ is not a prime in $\mathbb{Z}[\eta]$.
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Proof}
+
+	It follows that there exists $\alpha, \beta$ in $\mathbb{Z}[\eta]$, neither of which are units, such that $\alpha \beta = p$. \pause
+
+	We see that $p^2 = N(p) = N(\alpha) N(\beta)$, where $N$ denotes the norm in $\mathbb{Z}[\eta]$. \pause
+
+	Since $\alpha$ and $\beta$ are not units, we have that their norms are not equal to $1$, and so we have that $N(\alpha) = N(\beta) = p$. \pause
+
+	Let $\alpha = s + t \cdot \eta$ for some integers $s$ and $t$. Then 
+	\[
+		p = N(\alpha) = s^2 + st + At^2 = {\left( s + \frac{t}{2} \right)}^2 + \left(A - \frac{1}{4} \right) t^2 \geq A - \frac{1}{4}.
+	\] \pause
+
+	Since $p$ is an integer, this implies that $p \geq A$.
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Proof}
+
+	We now note that since $0 \leq n \leq A - 2$, we have that
+	\[
+		n^2 + n + A < {(A - 1)}^2 + (A - 1) + A = A^2.
+	\] \pause
+
+	Recall that $p$ was an arbitrary prime factor of $n^2 + n + A$, and was shown to be greater than or equal to $A$. \pause
+
+	It follows that every prime factor of $n^2 + n + A$ is larger than the square-root of $n^2 + n + A$, and so $n^2 + n + A$ is prime.
+
+\end{frame}
+
+\begin{frame}
+
+	It is clear that if $n^2 + n + A$ is prime for all $n$ such that $0 \leq n \leq A - 2$, then this is also true for all $n$ is the smaller range
+	\[
+		0 \leq n \leq \frac{1}{2} \sqrt{\frac{-D}{3}} - \frac{1}{2}.
+	\] \pause
+
+	We also recall that there is a bijection between classes of binary quadratic forms with discriminant $D$, and ideal classes in the imaginary quadratic field $\mathbb{Q}(\sqrt{D})$. \pause
+
+	Thus the only thing that remains to be proved in Rabinowitz' Theorem is that if $n^2 + n + A$ is prime for all $n$ such that
+	\[
+		0 \leq n \leq \frac{1}{2} \sqrt{\frac{-D}{3}} - \frac{1}{2},
+	\]
+	then the only reduced binary quadratic form with discriminant $D$ is $x^2 + xy + A y^2$.
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Proof}
+
+	Suppose that $ax^2 + bxy + cy^2$ is a reduced binary quadratic form such that $b^2 - 4ac = D$. \pause
+	
+	Since $D$ is odd, this implies that $b$ is odd. Let $b = 2n + 1$. Then we have that
+	\[
+		1 - 4A = D = b^2 - 4ac = 4n^2 + 4n + 1 - 4ac,
+	\]
+	and so
+	\[
+		ac = n^2 + n + A.
+	\] \pause
+
+	We note that since $b \leq a \leq c$,
+	\[
+		-D = 4ac - b^2 \geq 4b^2 - b^2 = 3b^2
+	\]
+	and so
+	\[
+		2n + 1 = b \leq \sqrt{\frac{-D}{3}}.
+	\]
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Proof}
+
+	By assumption, this implies that $ac = n^2 + n + A$ is prime. \pause
+
+	Since $a \leq c$, this implies that $a = 1$. \pause
+
+	Since $-a < b \leq a$, this implies that $b \in \{0, 1\}$. We recall that $b$ is odd, and so $b = 1$. \pause
+
+	Finally, we have that 
+	\[
+		1 - 4A = D = b^2 - 4ac = 1 - 4c,
+	\]
+	and so $c = A$.
+
+	\hfill $\square$
+
+\end{frame}
+
+\section{Solving the Class Number Problem}
+
+\begin{frame}
+
+	\frametitle{Some of the Ingredients}
+
+	I will now provide a rough overview of Baker's method of solving the Class Number $1$ problem. We leave out the technical details, but will pay attention to some of the concepts that go into the proof. The proof relies on Dirichlet $L$-series for the Kronecker symbol, some Fourier analysis, and a bound on linear forms in logarithms. We will look at these in varying levels of detail.
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Dirichlet Characters}
+
+	\begin{definition}[Dirichlet Characters]
+		A \emph{Dirichlet character modulo $n$} is a group homomorphism
+		\[
+			\chi : {\left(\mathbb{Z} / n \mathbb{Z}\right)}^\times \to {\mathbb{C}}^\times
+		\]
+		from the multiplicative group of integers modulo $n$ which are relatively prime to $n$ to the multiplicative group of non-zero complex numbers.
+	\end{definition}
+
+	\begin{block}{Remark}
+		A Dirichlet character modulo $n$ given by $\chi$ can be extended to a function from $\mathbb{Z}$ to $\mathbb{C}$ by setting
+		\[
+			\chi(m) = \chi(m \bmod n)
+		\]
+		if $m$ is relatively prime to $n$, and letting $\chi(m) = 0$ otherwise.
+	\end{block}
+
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{The Kronecker Symbol}
+
+	\begin{definition}[Legendre Symbol]
+		For a prime $p$, the \emph{Legendre symbol} $\legendre{n}{p}$ is a Dirichlet character modulo $p$ given by
+		\[
+			\legendre{n}{p} = \begin{cases} 1 & \text{if $n$ is a square modulo $p$} \\ -1 & \text{otherwise.} \end{cases}
+		\]
+	\end{definition}
+	\pause
+
+	\begin{block}{Not Quite a Definition (Kronecker Symbol)}
+		The \emph{Kronecker symbol} $\legendre{n}{m}$ is a Dirichlet character modulo both $m$ and $n$. It is an extension of the Legendre symbol to arbitrary integers $m$  and is defined essentially as the product of the Legendre symbols corresponding to the prime factors of $m$, but with some technicalities that I don't want to discuss.
+	\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Dirichlet $L$-series}
+
+	\begin{definition}[$L$-series]
+		For a function $\chi : \mathbb{N} \to \mathbb{C}$, the \emph{Dirichlet $L$-series} associated to $\chi$ is defined by
+		\[
+			L(\chi, s) = \sum_{n = 1}^{\infty} \frac{\chi(n)}{n^s}
+		\]
+		wherever this series converges.
+	\end{definition}
+
+	\begin{block}{Fact}
+		If $\chi$ is a Dirichlet character (or more generally, any function that only takes values on the unit circle), then the series defining $L(\chi, s)$ converges absolutely on the right half-plane $\mathfrak{Re}(s) > 1$, and defines an analytic function there.
+	\end{block}
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Some $L$-series formulae}
+
+	\begin{block}{Fact}
+		Let $k$ and $d$ be relatively prime positive integers, and let $\chi(n) = \legendre{k}{n}$ and $\chi^\prime(n) = \legendre{-d}{n}$ be the corresponding Kronecker symbols. Then for all $s \in \mathbb{C}$ with $\mathfrak{Re}(s) > 1$, we have that
+		\[
+			L(\chi, s) L(\chi \chi^\prime, s) = \frac{1}{2} \sum_{f} \sum_{(x, y) \neq (0, 0)} \chi(f(x, y)) {f(x, y)}^{-s}
+		\]
+		where $f$ ranges over representatives of the equivalence classes of binary quadratic forms with discriminant $-d$.
+	\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Some $L$-series formulae}
+
+	\begin{block}{Fact (Dirichlet's Class Number Formula)}
+		Let $d$ be a positive integer, and let $h$ be the class number of $\mathbb{Q}(\sqrt{-d})$. Let $w$ be the number of roots of unity in $\mathbb{Q}(\sqrt{-d})$, and let $\chi(n) = \legendre{-d}{n}$ be a Kronecker symbol. Then we have that
+		\[
+			L(\chi, 1) = \frac{2 \pi h}{w \sqrt{d}}.
+		\]
+	\end{block}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Some $L$-series formulae}
+
+	\begin{block}{Fact (Dirichlet's Other Class Number Formula)}
+		Let $d$ be a positive integer, let $h$ be the class number of $\mathbb{Q}(\sqrt{d})$, let $\chi(n) = \legendre{d}{n}$ be a Kronecker symbol, and let $\epsilon$ be the fundamental unit in $\mathbb{Q}(\sqrt{d})$. Then we have that
+		\[
+			L(\chi, 1) = \frac{h \log \epsilon}{\sqrt{d}}.
+		\]
+	\end{block}
+\end{frame}
+
+
+\begin{frame}
+	
+	\frametitle{Obtaining a Bound on the Discriminant}
+
+	\begin{itemize}
+		
+		\item We start with the formula
+			\[
+				L(\chi, s)L(\chi \chi^\prime, s) = \frac{1}{2} \sum_{f} \sum_{(x, y) \neq (0, 0)} \chi(f(x, y)) {f(x, y)}^{-s}.
+			\]
+			\pause
+
+		\item We split off the terms of the sum corresponding to $y = 0$. It turns out that this is equal to
+			\[
+				\frac{\pi^2}{6} \prod_{p \mid k} \left(1 - \frac{1}{p^2} \right) \sum_{f} \frac{\chi(f(1, 0))}{{f(1, 0)}^{-s}}.
+			\]
+			\pause
+
+		\item In particular, note that if $\mathbb{Q}(\sqrt{-d})$ has class number $1$, then the only $f$ which appears in this sum is $f(x, y) = x^2 + xy + \frac{1 - d}{4} y^2$, and so the sum is equal to $1$.
+
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Here be Dragons}
+
+	\begin{itemize}
+
+		\item We express the remaining sum over non-zero $y$ in a Fourier series
+			\[
+				\sum_{f} \sum_{x, y \in \mathbb{Z}, y \neq 0} \chi (f(x, y)) {f(x, y)}^{-s} = \sum_{f} \sum_{r = -\infty}^{\infty} A_{r, f}(s) \exp\left\{\frac{2 \pi i r b_f}{2 a_f k} \right\}
+			\]
+			where $f(x, y) = a_f x^2 + b_f xy + c_f y^2$. \pause
+
+		\item We use some dark magic/very scary analysis to obtain bounds on the Fourier coefficients as $s \to 1$. \pause
+
+		\item In particular, we find that
+			\[
+				|A_{r, f}(1)| \leq \frac{2 \pi}{\sqrt{d}} |r| e^{-\pi |r| \sqrt{d} / (k a_f)},
+			\]
+			and
+			\[
+				A_{0, f}(1) = - \frac{2 \pi}{k \sqrt{d}} \chi(a_f) \log p
+			\]
+			if $k$ is a power of the prime $p$, and $0$ otherwise.
+
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Nearly There}
+
+	\begin{itemize}
+		
+		\item We assume that $\mathbb{Q}(\sqrt{-d})$ has class number $1$, and apply the above results with this value of $d$, and for $k = 21$, and $k = 33$. \pause
+
+		\item Since $\mathbb{Q}(\sqrt{-d})$ has class number $1$, there is only $1$ equivalence class of binary quadratic forms with discriminant $-d$. \pause
+
+		\item Since each value of $k$ which we consider is not a prime power, we have that $A_{0, f}(1) = 0$ in each case. \pause
+
+		\item We find that
+			\[
+			\left| \sum_{f} \sum_{r = -\infty}^{\infty} A_{r, f}(1) \exp\left\{\frac{2 \pi i r b_f}{2 a_f k} \right\} \right| \leq \sum_{r = -\infty}^{\infty} |A_{r, f}(1)|.
+			\]
+			\pause
+
+		\item Using the bound for $|A_{r, f}(1)|$ from earlier, it is then possible to derive that this is bounded above by
+			\[
+				\frac{16 \pi e^{- \pi \sqrt{d} / k}}{\sqrt{d}}.
+			\]
+			\pause
+
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Hopefully I Had Enough Sense to Skip Some of the Slides}
+
+	\begin{itemize}
+
+		\item Noting that $\mathbb{Q}(\sqrt{k})$ has class number $1$ for $k \in \{21, 33\}$, Dirichlet's Class Number Formula tells us that
+			\[
+				L(\chi, 1) L(\chi \chi^\prime, 1) = \frac{2 \pi h_k \log \epsilon_k}{k \sqrt{d}}
+			\]
+			where $h_k$ is the class number of $\mathbb{Q}(\sqrt{-kd})$, and $\epsilon_k$ is the fundamental unit in $\mathbb{Q}(\sqrt{k})$.
+
+
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Last Boring Slide (In This Stretch) Hopefully}
+
+	\begin{itemize}
+		
+		\item For $k = 21$, we derive that 
+			\[
+				\frac{2 \pi h_{21} \log \epsilon_{21}}{21 \sqrt{d}} = \frac{\pi^2}{6} \prod_{p \mid 21} \left(1 - \frac{1}{p^2} \right) + \sum_{r = -\infty}^{\infty} A_{r, f}(1) e^{\pi i r / k},
+			\]
+			and so
+			\[
+				\left| \frac{64 \pi^2}{441} - \frac{2 \pi h_{21} \log \epsilon_{21}}{21 \sqrt{d}} \right| < \frac{16 \pi e^{-\pi \sqrt{d} / 21}}{\sqrt{d}}.
+			\]
+			\pause
+
+		\item This simplifies to
+			\[
+				\left| h_{21} \log \epsilon_{21} - \frac{32}{21} \pi \sqrt{d} \right| < 168 e^{-\pi \sqrt{d} / 21}.
+			\]
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Alas}
+
+	\begin{itemize}
+
+		\item We can obtain a similar bound for $k = 33$. With some manipulation, these bounds can be combined to obtain
+			\[
+				\left| 35 h_{21} \log \epsilon_{21} - 22 h_{33} \log \epsilon_{33} \right| < e^{-C \pi \sqrt{d}}
+			\]
+			for some constant $C < \frac{1}{33}$, and for all large enough $d$ where ``large enough'' depends on how close to $\frac{1}{33}$ we choose $C$ to be.
+			\pause
+
+		\item The quantity $35 h_{21} \log \epsilon_{21} - 22 h_{33} \log \epsilon_{33}$ is a \emph{linear form in logarithms}, and there are known results for how close such a thing can be to $0$ without being equal to $0$. \pause
+
+		\item Baker used such a bound to obtain that $d < 10^{500}$. \pause
+
+		\item A more modern bound, assuming that I applied it correctly, allows one to obtain $d < 2 \times 10^{15}$.
+
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Testing the Remaining Possibilities}
+
+	Baker notes that Stark had shown in 1966 that if $d > 10^4$ and $\mathbb{Q}(\sqrt{-d})$ has class number $1$, then $d$ must satisfy $d > e^{10^7}$. \pause
+
+	It is possible to show that $e^{10^7} > 10^{500} > 2 \times 10^{15}$, so we need not check the remaining possible values of $d$: we can instead follow Baker's lead and appeal to Stark's result. \pause
+
+	But that's no fun!
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Some Facts About Computers}
+
+	An average modern consumer computing device, such as the laptop that these slides were created on, can perform on the order of $10^9$ to $10^{10}$ basic calculations per CPU core per second. \pause
+
+	Actually, this depends very much on what one considers a basic operation, and on a variety of factors such as whether the required data is in cache or needs to be fetched from memory, how much branching the processor needs to do and how effective the branch predictor is at mitigating this effect, and other architectural concerns. \pause
+
+	Nevertheless, let us assume that this laptop can perform $10^{10}$ to $10^{11}$ operations per second, which equates to $10^{15}$ to $10^{16}$ operations per day. \pause
+
+	This, coincidentally, is approximately the upper bound for the absolute values for the discriminants $d$ that we obtained above. \pause
+
+	Unfortunately, the x86 instruction set does not include an instruction for calculating class numbers.
+
+	
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{How Not To Test the Remaining Possibilities}
+
+	We recall that the class number for the discriminant $-d$ is the number of reduced positive-definite binary quadratic forms with discriminant $-d$. \pause
+
+	We thus wish to find all solutions $(a, b, c)$ to the equation $b^2 - 4ac = -d$ satisfying $-a < b \leq a \leq c$, or $0 < b \leq a = c$. \pause
+
+	We could loop through values of $b$, and for each $b$ factorise $d + b^2$ to find possibilities for $a$ and $c$. This requires us to factorise $O(\sqrt{d})$ numbers for each $d$, and so requires $O(n^{3/2})$ factorisations to test every $d$ below $n$. Factorising $10^{22}$ integers is infeasible even if we could factorise $10^{16}$ integers per day. Notably, the x86 instruction set also doesn't include an instruction to factorise integers. \pause
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{How Not To Test the Remaining Possibilities}
+
+	Of course we don't really need to test every possible value of $d$ since we know that $d$ must be prime, but to exploit this we would need a way to only test prime values of $d$. First checking if $d$ is prime would then require us to do $10^{15}$ primality tests, and then still test the remaining $3 \times 10^{13}$ numbers that remain. \pause
+
+	The Sieve of Eratosthenes is quite efficient for finding all prime numbers below a given bound, but requires us to maintain a list of all of the numbers below that given bound, and storing a flag for each of $10^{15}$ natural numbers takes hopelessly too much memory. \pause
+
+	We could instead loop through the $O(\sqrt{d})$ possible values for $a$, and for each of these loop through either the $O(a)$ possible values of $b$ (in which case we test if $d + b^2$ is divisible by $4a$), or the $O(d/a)$ possible values of $c$ (in which case we test if $4ac - d$ is a square), but this still requires us to process at least $\sqrt{d}$ numbers for each $d$, and so remains infeasible.
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{A Slightly Better Idea?}
+
+	We don't actually need to know what the class number for the discriminant $d$ is, we just need to know whether it is equal to $1$. \pause
+
+	Using Rabinowitz' Theorem, we could test whether $m^2 + m + \frac{d + 1}{4}$ is prime for all $m$ in the range $0 \leq m \leq \sqrt{d/12}$. \pause
+
+	This doesn't seem to gain us anything since it still requires us to do $O(\sqrt{d})$ primality tests for each $d$, and we already decided that this many operations per value of $d$ is infeasible. \pause
+
+	I decided to go with this approach anyway. It is significantly faster than any of the previous approaches mentioned, and in the majority of cases we can stop after $1$ or $2$ primality checks.
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Another Improvement}
+
+	Primality tests are quite slow if we wish to use a deterministic primality test. \pause
+
+	Can we get away with using a probabilistic method to gain speed at the cost of accuracy? \pause
+
+	As long as the method we use doesn't give any false negatives (i.e. reports that a number is not prime when it actually is), we could use the probabilistic method as a fast pass over all of the numbers, and then use a deterministic test on the numbers it identifies to check whether they are true or false positives. \pause
+
+	This is a significant improvement as long as the number of false positives is quite small. There are a number of probabilistic primality tests that we can use, such as the Fermat primality test. \pause
+
+	We could even just test whether the number is divisible by any prime in some small fixed list of primes, but it's probably too much to hope for that this would only have a small number of false positives. \pause
+
+	Or is it?
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{Embracing Wishful Thinking}
+
+	For each (small) prime $p$, we require that $n^2 + n + d$ is not divisible by $p$. \pause
+
+	The expression $n^2 + n$ takes exactly $\frac{p + 1}{2}$ values for an odd prime $p$, and so there are precisely $\frac{p - 1}{2}$ allowable remainders for $d$ modulo $p$. \pause
+
+	Heuristically, each additional small prime $p$ that we include in the test approximately halves the number of possible values for $d$. \pause
+
+	Since $2^{50} \approx 10^{15}$, we expect a very small number of false positives if we use the first $50$ small primes. \pause
+
+	As an implementation note, we do not actually loop through $n$ and test whether $n^2 + n + d$ is divisible by $p$. Instead, we precompute the allowable remainders modulo $p$, store them in a lookup table, and then check whether the remainder of $d$ modulo $p$ is allowable.
+
+\end{frame}
+
+\begin{frame}
+
+	\frametitle{A Final Optimisation}
+
+	We still have the problem that we are doing this for $10^{15}$ values of $d$. Fortunately for each $d$ we are only doing $50$ computations, but we would still expect this calculation to take a couple of months. \pause
+
+	We really need a way to only test those $d$ that are likely to work, for example by somehow only looping through the prime values of $d$. \pause
+
+	One possible avenue for optimisation is to notice that since $d$ must be a twin prime, and so $d \equiv 5 \pmod 6$. We can thus start with $d = 5$, and add $6$ to $d$ on each iteration. This divides our search space by $6$. \pause
+
+	We can take this idea even further. For each of the first $11$ primes, we loop over the allowable remainders modulo that prime, and use the Chinese Remainder Theorem Algorithm to generate a value of $d$ that has an allowable remainder modulo each of these primes. \pause
+
+	On the computer that I hired from Amazon Cloud Services, this approach took a little over $1$ minute to run. On my current laptop, it takes around half an hour.
+
+\end{frame}
+
+\end{document}
